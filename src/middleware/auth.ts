@@ -7,7 +7,7 @@ export interface AuthenticatedRequest extends NextRequest {
 }
 
 export async function verifyAuth(
-  req: NextRequest
+  req: NextRequest,
 ): Promise<
   | { success: true; user: JWTPayload; response: null }
   | { success: false; user: null; response: NextResponse }
@@ -21,14 +21,14 @@ export async function verifyAuth(
         user: null,
         response: NextResponse.json(
           { error: "No token found" },
-          { status: 401 }
+          { status: 401 },
         ),
       };
     }
 
     const decoded = jwt.verify(
       token.value,
-      process.env.JWT_SECRET!
+      process.env.JWT_SECRET!,
     ) as jwt.JwtPayload & JWTPayload;
 
     return {
@@ -42,14 +42,14 @@ export async function verifyAuth(
       user: null,
       response: NextResponse.json(
         { error: (error as Error).message },
-        { status: 401 }
+        { status: 401 },
       ),
     };
   }
 }
 
 export function withAuth(
-  handler: (req: AuthenticatedRequest) => Promise<Response>
+  handler: (req: AuthenticatedRequest) => Promise<Response>,
 ) {
   return async (req: NextRequest) => {
     const auth = await verifyAuth(req);

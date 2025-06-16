@@ -12,7 +12,7 @@ type VoteCountsData = {
 
 export const Form = () => {
   const [selections, setSelections] = useState(
-    Array(parlayData.length).fill(null)
+    Array(parlayData.length).fill(null),
   );
   const [errors, setErrors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -73,7 +73,7 @@ export const Form = () => {
       // reload window
       window.location.reload();
     },
-    [selections]
+    [selections],
   );
 
   return (
