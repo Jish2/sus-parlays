@@ -6,6 +6,7 @@ type ParlayProps =
       subtitle?: string;
       selection: boolean | null;
       onClick: (value: boolean) => void;
+      readonly?: boolean;
     }
   | {
       title: string;
@@ -23,6 +24,7 @@ export function Parlay({
   isShow,
   left,
   right,
+  readonly = false,
 }: ParlayProps) {
   return (
     <div className="p-4 w-full border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm overflow-hidden bg-white dark:bg-neutral-800 transition-colors">
@@ -46,6 +48,7 @@ export function Parlay({
                   : "border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50"
               }`}
               onClick={() => onClick(true)}
+              disabled={readonly}
             >
               Yes
             </button>
@@ -58,6 +61,7 @@ export function Parlay({
                   : "border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50"
               }`}
               onClick={() => onClick(false)}
+              disabled={readonly}
             >
               No
             </button>
