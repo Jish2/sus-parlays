@@ -3,6 +3,7 @@
 import { Form } from "@/components/form";
 import { YC } from "@/components/yc";
 import { Github } from "lucide-react";
+import { Countdown } from "@/components/countdown";
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
           </a>{" "}
           on <s>roy lee</s> us (please sponsor this roy)
         </p>
+        <Countdown />
 
         <Form />
       </main>
