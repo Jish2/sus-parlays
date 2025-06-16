@@ -1,7 +1,15 @@
 import { AuthenticatedRequest, withAuth } from "@/middleware/auth";
 import supabase from "@/lib/db";
+import { isPast10AmPST } from "@/lib/utils";
 
 export const POST = withAuth(async (req: AuthenticatedRequest) => {
+  if (isPast10AmPST()) {
+    return Response.json(
+      { error: "Submission period has ended" },
+      { status: 400 },
+    );
+  }
+
   try {
     const body = await req.json();
     const selections = body.parsed_selections;
