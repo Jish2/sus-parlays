@@ -47,6 +47,7 @@ export default function Home() {
   const [errors, setErrors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isShow, setIsShow] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -132,7 +133,10 @@ export default function Home() {
 
           {!isShow && (
             <>
-              <Verification />
+              <Verification
+                isVerified={isVerified}
+                setIsVerified={setIsVerified}
+              />
 
               <button
                 onClick={() => {
@@ -146,27 +150,6 @@ export default function Home() {
               >
                 Test
               </button>
-
-              <div className="w-full">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
-                >
-                  email (so we can send you the prize)
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="example@email.com"
-                  className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
-                        bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white
-                        placeholder-neutral-500 dark:placeholder-neutral-400
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                        dark:focus:ring-blue-400 dark:focus:border-blue-400"
-                />
-              </div>
 
               {errors.length > 0 && (
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 w-full mb-4">
@@ -200,11 +183,8 @@ export default function Home() {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full px-4 py-3 bg-[#fb651e] text-white rounded-md font-medium
-                      hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-[#fb651e] focus:ring-offset-2
-                      dark:focus:ring-offset-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed
-                      transition-colors"
+                disabled={!isVerified || isSubmitting}
+                className="w-full py-2 px-4 bg-[#fb651e] text-white rounded-md hover:bg-[#fb651e]/90 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center">

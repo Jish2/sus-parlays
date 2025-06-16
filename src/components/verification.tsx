@@ -38,12 +38,11 @@ async function verifyCode(phone: string, code: string) {
   }
 }
 
-export default function Verification() {
+export default function Verification({ isVerified, setIsVerified }) {
   const [code, setCode] = useState("");
   const [phone, setPhone] = useState("");
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
 
   const handleSendCode = async () => {
     if (!phone) {
@@ -105,21 +104,18 @@ export default function Verification() {
     return (
       <div className="flex flex-col items-center justify-center space-y-4">
         <div className="text-green-600 font-semibold">
-          ✓ Phone number verified successfully!
+          ✓ phone number verified successfully!
         </div>
-        <div className="text-sm text-gray-600">You are now logged in.</div>
+        <div className="text-sm text-gray-600">you are now logged in.</div>
       </div>
     );
   }
 
   return (
-    <div
-      className="flex flex-col space-y-6 w-full max-w-md mx-auto p-6"
-      onKeyDown={handleKeyPress}
-    >
+    <div className="flex flex-col space-y-6 w-full" onKeyDown={handleKeyPress}>
       <div className="space-y-4">
         <label className="block text-sm font-medium text-gray-700">
-          Phone Number
+          phone number
         </label>
         <PhoneInput
           value={phone}
@@ -131,9 +127,9 @@ export default function Verification() {
           <button
             onClick={handleSendCode}
             disabled={isLoading || !phone}
-            className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+            className="w-full py-2 px-4 bg-[#fb651e] text-white rounded-md hover:bg-[#fb651e]/90 disabled:opacity-50"
           >
-            {isLoading ? "Sending..." : "Send Verification Code"}
+            {isLoading ? "sending..." : "send code"}
           </button>
         )}
       </div>
@@ -141,7 +137,7 @@ export default function Verification() {
       {isCodeSent && (
         <div className="space-y-4">
           <label className="block text-sm font-medium text-gray-700">
-            Enter Verification Code
+            enter verification code
           </label>
           <InputOTP
             maxLength={6}
@@ -176,7 +172,7 @@ export default function Verification() {
               disabled={isLoading}
               className="text-sm text-blue-600 hover:text-blue-800"
             >
-              Resend Code
+              resend code
             </button>
           </div>
         </div>
