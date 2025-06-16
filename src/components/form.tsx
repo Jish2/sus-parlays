@@ -1,6 +1,6 @@
 "use client";
 
-import { ParlayChoice, ParlayView } from "@/components/parlay";
+import { ParlayChoice, ParlayLoad, ParlayView } from "@/components/parlay";
 import Verification from "@/components/verification";
 import { parlayData } from "@/lib/data";
 import { useCallback, useEffect, useState } from "react";
@@ -19,8 +19,10 @@ export const Form = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [isAlreadySubmitted, setIsAlreadySubmitted] = useState(false);
   const [voteCountsData, setVoteCountsData] = useState<VoteCountsData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const checkAlreadySubmitted = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("/api/get-submission");
       const data = await response.json();
@@ -37,6 +39,8 @@ export const Form = () => {
       // setIsAlreadySubmitted(data.alreadySubmitted);
     } catch (error) {
       console.error("Error checking already submitted:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -81,7 +85,9 @@ export const Form = () => {
       <div className="w-full flex flex-col gap-4">
         {parlayData.map(({ title, subtitle }, i) => (
           <div key={i} className="flex items-center gap-4">
-            {isAlreadySubmitted ? (
+            {isLoading ? (
+              <ParlayLoad />
+            ) : isAlreadySubmitted ? (
               <ParlayView
                 title={title}
                 subtitle={subtitle}

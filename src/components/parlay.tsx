@@ -1,5 +1,14 @@
 "use client";
 
+export function ParlayLoad() {
+  return (
+    <div className="p-4 w-full border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm overflow-hidden bg-white dark:bg-neutral-800 transition-colors">
+      <div className="pb-0 text-lg font-semibold w-full h-8 bg-neutral-200 dark:bg-neutral-700 rounded-md animate-pulse mb-4" />
+      <div className="text-sm text-neutral-500 dark:text-neutral-400 w-full h-12 bg-neutral-200 dark:bg-neutral-700 rounded-md animate-pulse" />
+    </div>
+  );
+}
+
 type ParlayViewProps = {
   title: string;
   subtitle: string;
