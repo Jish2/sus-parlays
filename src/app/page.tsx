@@ -9,26 +9,26 @@ import { useState } from "react";
 const data = [
   {
     title: "Garry tweets more than 5 times during day 1",
-    subtitle: "From 9:00 am to 5:30 pm, and excluding reposts",
+    subtitle: "From 9:00 am to 5:30 pm, and excluding reposts and replies",
   },
   {
-    title: "Gary & partners (Diana Hu, David Lieb) all wear YC merch",
-    subtitle: "At one point while they are on stage",
+    title: "Garry & partners (Diana Hu, David Lieb) all wear YC merch",
+    subtitle: "While they are on stage for the fireside chats",
   },
   {
-    title: 'Sam says "AGI" > 5 times',
+    title: "Sam says “AGI” > 5 times",
     subtitle: "",
   },
   {
-    title: "Someone asks Sam Altman about GPT-5",
+    title: "Sam is asked about GPT-5",
     subtitle: "",
   },
   {
     title: "There are sandwiches at lunch",
-    subtitle: "Hamburgers included, hotdogs excluded",
+    subtitle: "Hot dogs are NOT sandwiches",
   },
   {
-    title: "Alphafold or Nobel Prize mentioned",
+    title: "John Jumper mentions Alphafold or Nobel Prize",
     subtitle: "",
   },
   {
@@ -36,7 +36,7 @@ const data = [
     subtitle: "",
   },
   {
-    title: "Elon Musk mentions SpaceX or Neuralink",
+    title: "Elon mentions SpaceX or Neuralink",
     subtitle: "",
   },
 ];
