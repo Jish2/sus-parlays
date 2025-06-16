@@ -3,7 +3,6 @@
 import { ParlayChoice, ParlayLoad, ParlayView } from "@/components/parlay";
 import Verification from "@/components/verification";
 import { parlayData } from "@/lib/data";
-import { isPast10AmPST } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 
 type VoteCountsData = {
@@ -25,17 +24,13 @@ export const Form = () => {
   const checkAlreadySubmitted = async () => {
     setIsLoading(true);
     try {
-      if (isPast10AmPST()) {
+      const response = await fetch("/api/get-submission");
+      const data = await response.json();
+      if (data?.data?.length) {
         setIsAlreadySubmitted(true);
-      } else {
-        const response = await fetch("/api/get-submission");
-        const data = await response.json();
-        if (data?.data?.length) {
-          setIsAlreadySubmitted(true);
-          const parsed_selections = JSON.parse(data.data[0].selection);
-          setSelections(parsed_selections);
-          console.log(parsed_selections);
-        }
+        const parsed_selections = JSON.parse(data.data[0].selection);
+        setSelections(parsed_selections);
+        console.log(parsed_selections);
       }
 
       const voteCountsResponse = await fetch("/api/get-vote-counts");
