@@ -3,7 +3,8 @@
 import { Parlay } from "@/components/parlay";
 import Verification from "@/components/verification";
 import { YC } from "@/components/yc";
-import { useState } from "react";
+import { parse } from "path";
+import { useState, useEffect, useCallback } from "react";
 
 const data = [
   {
@@ -46,25 +47,61 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  // const [isAlreadySubmitted, setIsAlreadySubmitted] = useState(
-  //   Array(data.length).fill(null)
-  // );
+  const [isAlreadySubmitted, setIsAlreadySubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setErrors([]); // Clear previous errors
+  const checkAlreadySubmitted = async () => {
+    try {
+      const response = await fetch("/api/get-submission");
+      const data = await response.json();
+      if (data.data.length) {
+        setIsAlreadySubmitted(true);
+        const parsed_selections = JSON.parse(data.data[0].selection);
+        setSelections(parsed_selections);
+      }
 
-    // check if all selections are not null
-    if (selections.some((selection) => selection === null)) {
-      setErrors((prev) => [...prev, "all selections must be made"]);
+      const voteCountsResponse = await fetch("/api/get-vote-counts");
+      const voteCountsData = await voteCountsResponse.json();
+      console.log(voteCountsData);
+      // setIsAlreadySubmitted(data.alreadySubmitted);
+    } catch (error) {
+      console.error("Error checking already submitted:", error);
     }
-
-    // submit predictions
-    setIsSubmitting(false);
-
-    // setIsShow(true);
   };
+  useEffect(() => {
+    checkAlreadySubmitted();
+  }, []);
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setIsSubmitting(true);
+      setErrors([]); // Clear previous errors
+
+      // check if all selections are not null
+      if (selections.some((selection) => selection === null)) {
+        setErrors((prev) => [...prev, "all selections must be made"]);
+      }
+
+      // submit predictions
+      setIsSubmitting(false);
+
+      const parsed_selections = selections.map((selection) => {
+        if (selection === null) {
+          return 0;
+        }
+        return selection === true ? 1 : 0;
+      });
+
+      await fetch("/api/submit-parlay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ parsed_selections }),
+      });
+
+      // setIsShow(true);
+    },
+    []
+  );
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">

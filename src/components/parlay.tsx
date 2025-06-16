@@ -36,6 +36,7 @@ export function Parlay({
         <div>
           <div className="flex items-center justify-between mt-4">
             <button
+              type="button"
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-24
               ${
                 selection === true
@@ -49,6 +50,7 @@ export function Parlay({
             </button>
 
             <button
+              type="button"
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-24
               ${
                 selection === false
