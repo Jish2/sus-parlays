@@ -94,6 +94,7 @@ export const Form = () => {
                 subtitle={subtitle}
                 left={voteCountsData[i]?.yes ?? 0}
                 right={voteCountsData[i]?.no ?? 0}
+                selection={selections[i]}
               />
             ) : (
               <ParlayChoice

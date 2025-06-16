@@ -14,9 +14,16 @@ type ParlayViewProps = {
   subtitle: string;
   left: number;
   right: number;
+  selection: number;
 };
 
-export function ParlayView({ title, subtitle, left, right }: ParlayViewProps) {
+export function ParlayView({
+  title,
+  subtitle,
+  left,
+  right,
+  selection,
+}: ParlayViewProps) {
   return (
     <div className="p-4 w-full border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm overflow-hidden bg-white dark:bg-neutral-800 transition-colors">
       <h3 className="pb-0 text-lg font-semibold">{title}</h3>
@@ -26,7 +33,7 @@ export function ParlayView({ title, subtitle, left, right }: ParlayViewProps) {
         </p>
       )}
 
-      <ProgressBar left={left ?? 0} right={right ?? 0} />
+      <ProgressBar left={left ?? 0} right={right ?? 0} selection={selection} />
     </div>
   );
 }
@@ -86,7 +93,15 @@ export function ParlayChoice({
   );
 }
 
-function ProgressBar({ left, right }: { left: number; right: number }) {
+function ProgressBar({
+  left,
+  right,
+  selection = -1,
+}: {
+  left: number;
+  right: number;
+  selection: number;
+}) {
   const total = left + right;
   const progress = (left / total) * 100;
   return (
@@ -95,8 +110,10 @@ function ProgressBar({ left, right }: { left: number; right: number }) {
       <div className="flex justify-between absolute left-0 w-full h-full px-2 top-1/2 -translate-y-1/2">
         <span className="text-sm text-neutral-100 dark:text-neutral-100 leading-9">
           {left}
+          {selection === 1 && " (you)"}
         </span>
         <span className="text-sm text-neutral-500 dark:text-neutral-100 leading-9">
+          {selection === 0 && "(you) "}
           {right}
         </span>
       </div>
