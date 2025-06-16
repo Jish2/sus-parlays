@@ -38,7 +38,13 @@ async function verifyCode(phone: string, code: string) {
   }
 }
 
-export default function Verification({ isVerified, setIsVerified }) {
+export default function Verification({
+  isVerified,
+  setIsVerified,
+}: {
+  isVerified: boolean;
+  setIsVerified: (isVerified: boolean) => void;
+}) {
   const [code, setCode] = useState("");
   const [phone, setPhone] = useState("");
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -81,7 +87,7 @@ export default function Verification({ isVerified, setIsVerified }) {
     } else {
       toast.error("Invalid verification code. Please try again.");
     }
-  }, [code, phone]);
+  }, [code, phone, setIsVerified]);
 
   const handleKeyPress = async (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !isLoading) {

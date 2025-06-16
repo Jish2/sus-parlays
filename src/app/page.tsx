@@ -3,7 +3,6 @@
 import { Parlay } from "@/components/parlay";
 import Verification from "@/components/verification";
 import { YC } from "@/components/yc";
-import Image from "next/image";
 import { useState } from "react";
 
 const data = [
@@ -47,9 +46,9 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const [isAlreadySubmitted, setIsAlreadySubmitted] = useState(
-    Array(data.length).fill(null)
-  );
+  // const [isAlreadySubmitted, setIsAlreadySubmitted] = useState(
+  //   Array(data.length).fill(null)
+  // );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
