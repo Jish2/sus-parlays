@@ -2,6 +2,7 @@
 
 import { Form } from "@/components/form";
 import { YC } from "@/components/yc";
+import { Github } from "lucide-react";
 
 export default function Home() {
   return (
@@ -35,6 +36,16 @@ export default function Home() {
           proof of yc sus acceptance will be required to claim the prize. good
           luck!
         </p>
+
+        <a
+          href="https://github.com/Jish2/sus-parlays"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-neutral-600 dark:text-neutral-400 flex items-center gap-2"
+        >
+          <Github size={16} />
+          github
+        </a>
       </footer>
     </div>
   );
