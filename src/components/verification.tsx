@@ -102,7 +102,7 @@ export default function Verification({ isVerified, setIsVerified }) {
 
   if (isVerified) {
     return (
-      <div className="flex flex-col items-center justify-center space-y-4">
+      <div className="flex flex-col items-center justify-center space-y-2">
         <div className="text-green-600 font-semibold">
           ✓ phone number verified successfully!
         </div>
@@ -113,10 +113,11 @@ export default function Verification({ isVerified, setIsVerified }) {
 
   return (
     <div className="flex flex-col space-y-6 w-full" onKeyDown={handleKeyPress}>
+      <h1 className="text-lg font-semibold">verify your phone number</h1>
+      <p className="text-sm text-neutral-600 dark:text-neutral-400 -mt-4">
+        (so we can send you the prize)
+      </p>
       <div className="space-y-4">
-        <label className="block text-sm font-medium text-gray-700">
-          phone number
-        </label>
         <PhoneInput
           value={phone}
           onChange={(value) => setPhone(value)}
@@ -136,9 +137,6 @@ export default function Verification({ isVerified, setIsVerified }) {
 
       {isCodeSent && (
         <div className="space-y-4">
-          <label className="block text-sm font-medium text-gray-700">
-            enter verification code
-          </label>
           <InputOTP
             maxLength={6}
             value={code}
@@ -163,14 +161,14 @@ export default function Verification({ isVerified, setIsVerified }) {
             <button
               onClick={handleVerifyCode}
               disabled={isLoading || code.length !== 6}
-              className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="w-full py-2 px-4 bg-[#fb651e] text-white rounded-md hover:bg-[#fb651e]/90 disabled:opacity-50"
             >
-              {isLoading ? "Verifying..." : "Verify Code"}
+              {isLoading ? "verifying..." : "verify code"}
             </button>
             <button
               onClick={handleSendCode}
               disabled={isLoading}
-              className="text-sm text-blue-600 hover:text-blue-800"
+              className="text-sm text-[#fb651e] hover:text-[#fb651e]/90"
             >
               resend code
             </button>
