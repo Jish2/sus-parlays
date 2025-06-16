@@ -168,9 +168,10 @@ export default function Home() {
                 </div>
               )}
 
+              {isVerified && (
               <button
                 type="submit"
-                disabled={!isVerified || isSubmitting}
+                  disabled={isSubmitting}
                 className="w-full py-2 px-4 bg-[#fb651e] text-white rounded-md hover:bg-[#fb651e]/90 disabled:opacity-50"
               >
                 {isSubmitting ? (
@@ -200,6 +201,7 @@ export default function Home() {
                   "submit predictions"
                 )}
               </button>
+              )}
             </>
           )}
         </form>
