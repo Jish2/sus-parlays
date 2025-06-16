@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Invalid code" }, { status: 400 });
     }
 
-    const token = jwt.sign({ phone }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ phone }, JWT_SECRET, { expiresIn: "48h" });
 
     (await cookies()).set({
       name: "auth_token",
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       path: "/",
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 60 * 60,
+      maxAge: 60 * 60 * 48,
     });
 
     return Response.json({ success: true });
