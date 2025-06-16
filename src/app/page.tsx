@@ -1,55 +1,225 @@
+"use client";
+
+import { Parlay } from "@/components/parlay";
+import { YC } from "@/components/yc";
 import Image from "next/image";
+import { useState } from "react";
+
+const data = [
+  {
+    title: "Garry tweets more than 5 times during day 1",
+    subtitle: "From 9:00 am to 5:30 pm, and excluding reposts",
+  },
+  {
+    title: "Gary & partners (Diana Hu, David Lieb) all wear YC merch",
+    subtitle: "At one point while they are on stage",
+  },
+  {
+    title: 'Sam says "AGI" > 5 times',
+    subtitle: "",
+  },
+  {
+    title: "Someone asks Sam Altman about GPT-5",
+    subtitle: "",
+  },
+  {
+    title: "There are sandwiches at lunch",
+    subtitle: "Hamburgers included, hotdogs excluded",
+  },
+  {
+    title: "Alphafold or Nobel Prize mentioned",
+    subtitle: "",
+  },
+  {
+    title: "Elon is late",
+    subtitle: "",
+  },
+  {
+    title: "Elon Musk mentions SpaceX or Neuralink",
+    subtitle: "",
+  },
+];
 
 export default function Home() {
+  const [selections, setSelections] = useState(Array(data.length).fill(null));
+  const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isShow, setIsShow] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrors([]); // Clear previous errors
+
+    // check if all selections are not null
+    if (selections.some((selection) => selection === null)) {
+      setErrors((prev) => [...prev, "all selections must be made"]);
+    }
+
+    // check if email is valid
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      setErrors((prev) => [...prev, "email must be valid"]);
+    }
+
+    // submit predictions
+    setIsSubmitting(false);
+  };
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-full max-w-[600px] font-mono">
+        <h1 className="text-2xl font-bold flex items-center gap-4">
+          <YC />
+          sus parlays (DAY01)
+        </h1>
+        <p className="text-neutral-600 dark:text-neutral-400 text-sm -mt-6">
+          winner gets 1 yr of{" "}
+          <a
+            href="https://cluely.com"
+            target="_blank"
+            className="underline underline-offset-4"
+          >
+            cluely
+          </a>{" "}
+          on roy lee
+        </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+          <div className="flex justify-center">
+            <button
+              type="button"
+              onClick={() => setIsShow(!isShow)}
+              className="px-3 py-2 bg-[#fb651e] text-white rounded-md font-medium
+                        hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-[#fb651e] focus:ring-offset-2
+                        dark:focus:ring-offset-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed
+                        transition-colors text-sm w-fit"
+            >
+              {isShow ? "hide" : "show"} predictions
+            </button>
+          </div>
+
+          <div className="w-full flex flex-col gap-4">
+            {data.map(({ title, subtitle }, i) => (
+              <div key={i} className="flex items-center gap-4">
+                {isShow ? (
+                  <Parlay
+                    title={title}
+                    subtitle={subtitle}
+                    isShow={isShow}
+                    left={10}
+                    right={20}
+                  />
+                ) : (
+                  <Parlay
+                    title={title}
+                    subtitle={subtitle}
+                    selection={selections[i]}
+                    onClick={(value: boolean) =>
+                      setSelections((p) => {
+                        const newSelections = [...p];
+                        newSelections[i] = value;
+                        return newSelections;
+                      })
+                    }
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {!isShow && (
+            <>
+              <div className="w-full">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2"
+                >
+                  email (so we can send you the prize)
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="example@email.com"
+                  className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
+                        bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white
+                        placeholder-neutral-500 dark:placeholder-neutral-400
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                        dark:focus:ring-blue-400 dark:focus:border-blue-400"
+                />
+              </div>
+
+              {errors.length > 0 && (
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 w-full mb-4">
+                  <div className="flex">
+                    <svg
+                      className="w-5 h-5 text-red-400 mt-0.5 mr-2 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <div>
+                      <h3 className="text-sm font-medium text-red-800 dark:text-red-200 mb-1">
+                        Please fix the following errors:
+                      </h3>
+                      <ul className="text-sm text-red-700 dark:text-red-300 space-y-1">
+                        {errors.map((error, index) => (
+                          <li key={index}>• {error}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 bg-[#fb651e] text-white rounded-md font-medium
+                      hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-[#fb651e] focus:ring-offset-2
+                      dark:focus:ring-offset-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed
+                      transition-colors"
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center">
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    submitting predictions...
+                  </div>
+                ) : (
+                  "submit predictions"
+                )}
+              </button>
+            </>
+          )}
+        </form>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <a
