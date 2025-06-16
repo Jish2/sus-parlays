@@ -1,6 +1,7 @@
 "use client";
 
 import { Parlay } from "@/components/parlay";
+import Verification from "@/components/verification";
 import { YC } from "@/components/yc";
 import Image from "next/image";
 import { useState } from "react";
@@ -131,6 +132,21 @@ export default function Home() {
 
           {!isShow && (
             <>
+              <Verification />
+
+              <button
+                onClick={() => {
+                  fetch("/api/testingroute", {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  });
+                }}
+              >
+                Test
+              </button>
+
               <div className="w-full">
                 <label
                   htmlFor="email"
