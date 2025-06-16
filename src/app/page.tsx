@@ -82,7 +82,7 @@ export default function Home() {
           >
             cluely
           </a>{" "}
-          on us <s>roy lee</s> (pending approval)
+          on <s>roy lee</s> us (please sponsor this roy)
         </p>
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
