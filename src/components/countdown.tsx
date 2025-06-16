@@ -33,7 +33,7 @@ export function Countdown() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-1 w-full">
       <p className="text-sm text-neutral-600 dark:text-neutral-400">
         voting ends in
       </p>
