@@ -3,41 +3,6 @@
 import { Form } from "@/components/form";
 import { YC } from "@/components/yc";
 
-export const parlayData = [
-  {
-    title: "Garry tweets more than 5 times during day 1",
-    subtitle: "From 9:00 am to 5:30 pm, and excluding reposts and replies",
-  },
-  {
-    title: "Garry & partners (Diana Hu, David Lieb) all wear YC merch",
-    subtitle: "While they are on stage for the fireside chats",
-  },
-  {
-    title: "Sam says “AGI” > 5 times",
-    subtitle: "",
-  },
-  {
-    title: "Sam is asked about GPT-5",
-    subtitle: "",
-  },
-  {
-    title: "There are sandwiches at lunch",
-    subtitle: "Hot dogs are NOT sandwiches",
-  },
-  {
-    title: "John Jumper mentions Alphafold or Nobel Prize",
-    subtitle: "",
-  },
-  {
-    title: "Elon is late",
-    subtitle: "",
-  },
-  {
-    title: "Elon mentions SpaceX or Neuralink",
-    subtitle: "",
-  },
-];
-
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">

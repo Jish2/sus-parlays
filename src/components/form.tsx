@@ -1,8 +1,8 @@
 "use client";
 
-import { parlayData } from "@/app/page";
 import { ParlayChoice, ParlayView } from "@/components/parlay";
 import Verification from "@/components/verification";
+import { parlayData } from "@/lib/data";
 import { useCallback, useEffect, useState } from "react";
 
 type VoteCountsData = {
