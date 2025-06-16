@@ -1,9 +1,8 @@
 "use client";
 
-import { Parlay } from "@/components/parlay";
+import { ParlayChoice, ParlayView } from "@/components/parlay";
 import Verification from "@/components/verification";
 import { YC } from "@/components/yc";
-import { parse } from "path";
 import { useState, useEffect, useCallback } from "react";
 
 const data = [
@@ -45,15 +44,15 @@ export default function Home() {
   const [selections, setSelections] = useState(Array(data.length).fill(null));
   const [errors, setErrors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isShow, setIsShow] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [isAlreadySubmitted, setIsAlreadySubmitted] = useState(false);
+  const [voteCountsData, setVoteCountsData] = useState<any[]>([]);
 
   const checkAlreadySubmitted = async () => {
     try {
       const response = await fetch("/api/get-submission");
       const data = await response.json();
-      if (data.data.length) {
+      if (data?.data?.length) {
         setIsAlreadySubmitted(true);
         const parsed_selections = JSON.parse(data.data[0].selection);
         setSelections(parsed_selections);
@@ -62,6 +61,7 @@ export default function Home() {
       const voteCountsResponse = await fetch("/api/get-vote-counts");
       const voteCountsData = await voteCountsResponse.json();
       console.log(voteCountsData);
+      setVoteCountsData(voteCountsData.result);
       // setIsAlreadySubmitted(data.alreadySubmitted);
     } catch (error) {
       console.error("Error checking already submitted:", error);
@@ -76,7 +76,7 @@ export default function Home() {
       e.preventDefault();
       setIsSubmitting(true);
       setErrors([]); // Clear previous errors
-
+      console.log(selections.some((selection) => selection === null));
       // check if all selections are not null
       if (selections.some((selection) => selection === null)) {
         setErrors((prev) => [...prev, "all selections must be made"]);
@@ -98,9 +98,10 @@ export default function Home() {
         body: JSON.stringify({ parsed_selections }),
       });
 
-      // setIsShow(true);
+      // reload window
+      window.location.reload();
     },
-    []
+    [selections]
   );
 
   return (
@@ -123,32 +124,18 @@ export default function Home() {
         </p>
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-          <div className="flex justify-center">
-            <button
-              type="button"
-              onClick={() => setIsShow(!isShow)}
-              className="px-3 py-2 bg-[#fb651e] text-white rounded-md font-medium
-                        hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-[#fb651e] focus:ring-offset-2
-                        dark:focus:ring-offset-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed
-                        transition-colors text-sm w-fit"
-            >
-              {isShow ? "hide" : "show"} predictions
-            </button>
-          </div>
-
           <div className="w-full flex flex-col gap-4">
             {data.map(({ title, subtitle }, i) => (
               <div key={i} className="flex items-center gap-4">
-                {isShow ? (
-                  <Parlay
+                {isAlreadySubmitted ? (
+                  <ParlayView
                     title={title}
                     subtitle={subtitle}
-                    isShow={isShow}
-                    left={10}
-                    right={20}
+                    left={voteCountsData[i]?.yes ?? 0}
+                    right={voteCountsData[i]?.no ?? 0}
                   />
                 ) : (
-                  <Parlay
+                  <ParlayChoice
                     title={title}
                     subtitle={subtitle}
                     selection={selections[i]}
@@ -165,7 +152,7 @@ export default function Home() {
             ))}
           </div>
 
-          {!isShow && (
+          {!isAlreadySubmitted && (
             <>
               <Verification
                 isVerified={isVerified}

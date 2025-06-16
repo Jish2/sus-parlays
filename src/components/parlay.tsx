@@ -1,26 +1,13 @@
 "use client";
 
-type ParlayProps = {
+type ParlayViewProps = {
   title: string;
-  subtitle?: string;
-  selection?: boolean | null;
-  onClick?: (value: boolean) => void;
-  readonly?: boolean;
-  isShow?: true;
-  left?: number;
-  right?: number;
+  subtitle: string;
+  left: number;
+  right: number;
 };
 
-export function Parlay({
-  title,
-  subtitle,
-  isShow,
-  left,
-  right,
-  selection,
-  onClick,
-  readonly,
-}: ParlayProps) {
+export function ParlayView({ title, subtitle, left, right }: ParlayViewProps) {
   return (
     <div className="p-4 w-full border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm overflow-hidden bg-white dark:bg-neutral-800 transition-colors">
       <h3 className="pb-0 text-lg font-semibold">{title}</h3>
@@ -30,41 +17,62 @@ export function Parlay({
         </p>
       )}
 
-      {isShow ? (
-        <ProgressBar left={left ?? 0} right={right ?? 0} />
-      ) : (
-        <div>
-          <div className="flex items-center justify-between mt-4">
-            <button
-              type="button"
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-24
+      <ProgressBar left={left ?? 0} right={right ?? 0} />
+    </div>
+  );
+}
+
+type ParlayChoiceProps = {
+  title: string;
+  subtitle: string;
+  selection: boolean | null;
+  onClick: (value: boolean) => void;
+};
+
+export function ParlayChoice({
+  title,
+  subtitle,
+  selection,
+  onClick,
+}: ParlayChoiceProps) {
+  return (
+    <div className="p-4 w-full border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm overflow-hidden bg-white dark:bg-neutral-800 transition-colors">
+      <h3 className="pb-0 text-lg font-semibold">{title}</h3>
+      {subtitle && (
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+          {subtitle}
+        </p>
+      )}
+
+      <div>
+        <div className="flex items-center justify-between mt-4">
+          <button
+            type="button"
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-24
               ${
                 selection === true
                   ? "bg-[#fb651e] text-white hover:brightness-95"
                   : "border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50"
               }`}
-              onClick={() => onClick?.(true)}
-              disabled={readonly}
-            >
-              Yes
-            </button>
+            onClick={() => onClick?.(true)}
+          >
+            Yes
+          </button>
 
-            <button
-              type="button"
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-24
+          <button
+            type="button"
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors w-24
               ${
                 selection === false
                   ? "bg-[#fb651e] text-white hover:brightness-95"
                   : "border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50"
               }`}
-              onClick={() => onClick?.(false)}
-              disabled={readonly}
-            >
-              No
-            </button>
-          </div>
+            onClick={() => onClick?.(false)}
+          >
+            No
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 }
